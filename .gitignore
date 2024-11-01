@@ -2,3 +2,5 @@
 .ipynb_checkpoints
 gotm
 __pycache__
+data
+tests
