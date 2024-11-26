@@ -56,10 +56,10 @@ def nondim_das(das, **kwargs):
         das_new[var] = nondim_da(das[var], **kwargs)
     return das_new
 
-def get_merge(NN, Tf=inertial_period(lat=45), nTf0=2, nTf1=4):
+def get_merge(NN, Tf=inertial_period(lat=45), nTf0=1, nTf1=4):
     z0, z1 = get_edges(NN)
     time_merge = z0.dropna(dim='time').time[-1]
-    if time_merge.attrs['long_name'] == '$t/T_f$':
+    if hasattr(time_merge, 'long_name') and time_merge.attrs['long_name'] == '$t/T_f$':
         tstart1, tend1 = time_merge-1-nTf0, time_merge-nTf0
         tstart2, tend2 = time_merge+nTf1, time_merge+nTf1+1
         print('Time of merge:')
@@ -85,4 +85,4 @@ def get_tslice(NN, Tf, **kwargs):
     _, _, tstart1, tend1, tstart2, tend2 = get_merge(NN, Tf=Tf, **kwargs)
     tslice1 = slice(tstart1, tend1)
     tslice2 = slice(tstart2, tend2)
-    return tslice1, tslice2
+    return tslice1, tslice2    
