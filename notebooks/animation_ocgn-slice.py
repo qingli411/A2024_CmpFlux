@@ -5,11 +5,11 @@ import sys
 import os
 import matplotlib.pyplot as plt
 import numpy as np
-sys.path.append(os.path.join(os.environ['HOME'], 'local', 'lesview'))
+sys.path.append(os.path.join(os.path.pardir, 'lesview'))
 from lesview import *
 from lesview.plots import plot_box_slice
 
-casename = 'lsc_ymc22_bbl_N2p1_viz'
+casename = 'lsc_ymc22_sbl_bbl_v2'
 datapath = os.path.join(os.path.pardir, 'tests', '{:s}'.format(casename))
 
 data_xys = OceananigansDataVolume(filepath=os.path.join(datapath, 'slices_xy.jld2'))

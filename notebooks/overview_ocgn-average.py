@@ -7,10 +7,10 @@ import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 import numpy as np
 import pandas as pd
-sys.path.append(os.path.join(os.environ['HOME'], 'local', 'lesview'))
+sys.path.append(os.path.join(os.path.pardir, 'lesview'))
 from lesview import *
 
-casename = 'lsc_ymc22_sbl_bbl_v2_rf_iles9'
+casename = 'lsc_ymc22_sbl_bbl_v2'
 datapath = os.path.join(os.path.pardir, 'tests', '{:s}'.format(casename))
 figpath  = 'overview_{:s}'.format(casename)
 os.makedirs(figpath, exist_ok=True)
