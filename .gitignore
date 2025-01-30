@@ -3,4 +3,5 @@
 gotm
 __pycache__
 data
-tests
+*.jld2
+*.log
