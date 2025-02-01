@@ -10,7 +10,7 @@ from lesview import *
 from lesview.plots import plot_box_slice
 
 casename = 'lsc_ymc22_sbl_bbl_v2'
-datapath = os.path.join(os.path.pardir, 'tests', '{:s}'.format(casename))
+datapath = os.path.join(os.path.pardir, 'oceananigans', '{:s}'.format(casename))
 
 data_xys = OceananigansDataVolume(filepath=os.path.join(datapath, 'slices_xy.jld2'))
 data_xyb = OceananigansDataVolume(filepath=os.path.join(datapath, 'slices_xy2.jld2'))
