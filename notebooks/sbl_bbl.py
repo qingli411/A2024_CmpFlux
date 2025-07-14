@@ -56,30 +56,30 @@ def nondim_das(das, **kwargs):
         das_new[var] = nondim_da(das[var], **kwargs)
     return das_new
 
-def get_merge(NN, Tf=inertial_period(lat=45), nTf0=1, nTf1=4):
+def get_merge(NN, Tf=inertial_period(lat=45), nTf0=2, nTf1=4):
     z0, z1 = get_edges(NN)
     time_merge = z0.dropna(dim='time').time[-1]
     if hasattr(time_merge, 'long_name') and time_merge.attrs['long_name'] == '$t/T_f$':
-        tstart1, tend1 = time_merge-1-nTf0, time_merge-nTf0
-        tstart2, tend2 = time_merge+nTf1, time_merge+nTf1+1
+        tstart1, tend1 = nTf0, nTf0+1
+        tstart2, tend2 = (time_merge+nTf1).data, (time_merge+nTf1+1).data
         print('Time of merge:')
         print('t/Tf = {:g}'.format(time_merge.data))
         print('T1:')
-        print('t/Tf = {:g} -- {:g}'.format(tstart1.data, tend1.data))
+        print('t/Tf = {:g} -- {:g}'.format(tstart1, tend1))
         print('T2:')
-        print('t/Tf = {:g} -- {:g}'.format(tstart2.data, tend2.data))
+        print('t/Tf = {:g} -- {:g}'.format(tstart2, tend2))
     else:
-        tstart1, tend1 = time_merge - pd.Timedelta(Tf, 's') - pd.Timedelta(nTf0*Tf, 's'), time_merge - pd.Timedelta(nTf0*Tf, 's')
-        tstart2, tend2 = time_merge + pd.Timedelta(nTf1*Tf, 's'), time_merge + pd.Timedelta(nTf1*Tf, 's') + pd.Timedelta(Tf, 's')
+        tstart1, tend1 = pd.Timedelta(nTf0*Tf, 's').data, pd.Timedelta((nTf0+1)*Tf, 's').data
+        tstart2, tend2 = (time_merge + pd.Timedelta(nTf1*Tf, 's')).data, (time_merge + pd.Timedelta(nTf1*Tf, 's') + pd.Timedelta(Tf, 's')).data
         print('Time of merge:')
-        print(pd.to_datetime(time_merge.data))
+        print(pd.to_datetime(time_merge))
         print('T1:')
-        print(pd.to_datetime(tstart1.data))
-        print(pd.to_datetime(tend1.data))
+        print(pd.to_datetime(tstart1))
+        print(pd.to_datetime(tend1))
         print('T2:')
-        print(pd.to_datetime(tstart2.data))
-        print(pd.to_datetime(tend2.data))
-    return z0, z1, tstart1.data, tend1.data, tstart2.data, tend2.data
+        print(pd.to_datetime(tstart2))
+        print(pd.to_datetime(tend2))
+    return z0, z1, tstart1, tend1, tstart2, tend2
 
 def get_tslice(NN, Tf, **kwargs):
     _, _, tstart1, tend1, tstart2, tend2 = get_merge(NN, Tf=Tf, **kwargs)
