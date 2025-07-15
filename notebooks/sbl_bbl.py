@@ -58,6 +58,7 @@ def nondim_das(das, **kwargs):
 
 def get_merge(NN, Tf=inertial_period(lat=45), nTf0=2, nTf1=4):
     z0, z1 = get_edges(NN)
+    time_start = z0.dropna(dim='time').time[0]
     time_merge = z0.dropna(dim='time').time[-1]
     if hasattr(time_merge, 'long_name') and time_merge.attrs['long_name'] == '$t/T_f$':
         tstart1, tend1 = nTf0, nTf0+1
@@ -69,10 +70,10 @@ def get_merge(NN, Tf=inertial_period(lat=45), nTf0=2, nTf1=4):
         print('T2:')
         print('t/Tf = {:g} -- {:g}'.format(tstart2, tend2))
     else:
-        tstart1, tend1 = pd.Timedelta(nTf0*Tf, 's').data, pd.Timedelta((nTf0+1)*Tf, 's').data
+        tstart1, tend1 = (time_start + pd.Timedelta(nTf0*Tf, 's')).data, (time_start + pd.Timedelta((nTf0+1)*Tf, 's')).data
         tstart2, tend2 = (time_merge + pd.Timedelta(nTf1*Tf, 's')).data, (time_merge + pd.Timedelta(nTf1*Tf, 's') + pd.Timedelta(Tf, 's')).data
         print('Time of merge:')
-        print(pd.to_datetime(time_merge))
+        print(pd.to_datetime(time_merge.data))
         print('T1:')
         print(pd.to_datetime(tstart1))
         print(pd.to_datetime(tend1))
