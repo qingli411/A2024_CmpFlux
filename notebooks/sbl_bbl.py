@@ -31,10 +31,13 @@ def get_flux(lam, num, gam):
     flux = - num * tmp + gam
     return flux
 
-def inertial_period(lat=45):
+def coriolis(lat=45):
     Omega = 2*np.pi/86400
     f = 2*Omega*np.sin(np.deg2rad(lat))
-    return 2*np.pi/f
+    return f
+
+def inertial_period(lat=45):
+    return 2*np.pi/coriolis(lat)
 
 def nondim_da(da, H, Tf):
     zdim = da.dims[0]
