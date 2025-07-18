@@ -2,6 +2,24 @@ import numpy as np
 import xarray as xr
 import pandas as pd
 
+g = 9.81
+H = 30
+u10 = 8
+N2 = 1.962e-4
+bstar = N2 * H
+cd = 1.25e-3
+rhoa = 1.225
+rhoo = 1026
+lat = 45.
+alphaT = 2.0e-4
+tau = rhoa/rhoo*cd*u10*u10
+ustar = np.sqrt(tau)
+amplitude = 1.0
+wavelength = 60
+wavenumber = 2.*np.pi/wavelength
+frequency = np.sqrt(g*wavenumber*np.tanh(wavenumber*H))
+us0 = amplitude**2*wavenumber
+
 def get_edges(NN):
     z = NN.coords['z'].values
     nt = NN.time.shape[0]
